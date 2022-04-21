@@ -14,7 +14,7 @@ export class NotesService {
   }
   create(noteDto: CreateNoteDto) {
     const note = {
-      id: Math.random().toString(),
+      id: Date.now().toString(),
       ...noteDto,
     };
     this.notes.push(note);
