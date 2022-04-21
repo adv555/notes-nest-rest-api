@@ -1,5 +1,5 @@
 import { UpdateNoteDto } from './dto/update-note.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Note, NoteDocument } from './schemas/note.schema';
@@ -26,6 +26,13 @@ export class NotesService {
     return this.noteModel.findByIdAndRemove(id).exec();
   }
   async update(id: string, noteDto: UpdateNoteDto): Promise<Note> {
-    return this.noteModel.findByIdAndUpdate(id, noteDto, { new: true }).exec();
+    const updatedNote = await this.noteModel.findByIdAndUpdate(id, noteDto, {
+      new: true,
+    });
+
+    if (!updatedNote) {
+      throw new NotFoundException();
+    }
+    return updatedNote;
   }
 }

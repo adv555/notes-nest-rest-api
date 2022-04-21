@@ -6,8 +6,8 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
@@ -38,10 +38,10 @@ export class NotesController {
     return this.notesService.create(createNoteDto);
   }
 
-  @Put('/:id')
+  @Patch('/:id')
   update(
-    @Body() updateNoteDto: UpdateNoteDto,
     @Param('id') id: string,
+    @Body() updateNoteDto: UpdateNoteDto,
   ): Promise<Note> {
     return this.notesService.update(id, updateNoteDto);
   }
