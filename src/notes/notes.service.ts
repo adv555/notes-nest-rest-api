@@ -3,22 +3,8 @@ import { getDateFromContent } from './../shared/getDateFromContent';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateNoteDto } from './dto/create-note.dto';
-
-export interface Note {
-  id: string;
-  name: string;
-  createdAt: Date | string;
-  category: string;
-  content: string;
-  date: string[] | [];
-  archived: boolean;
-}
-export interface NoteStats {
-  category: string;
-  total: number;
-  archived: number;
-  active: number;
-}
+import { Note } from './entities/note.entity';
+import { Statistics } from './entities/note-stats.entity';
 
 @Injectable()
 export class NotesService {
@@ -27,9 +13,9 @@ export class NotesService {
     return notes;
   }
 
-  async generateStats(): Promise<NoteStats> {
+  async generateStats(): Promise<Statistics> {
     const notes = await notesRepository.getAll();
-    const statistics = notes.reduce((stats: NoteStats[], note: Note) => {
+    const statistics = notes.reduce((stats: Statistics[], note: Note) => {
       const category = stats.find((stat) => stat.category === note.category);
       if (!category) {
         return [
