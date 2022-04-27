@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Note } from 'src/notes/notes.service';
+import { Note } from 'src/notes/entities/note.entity';
 const Path = path.resolve('src/db/db.json');
 
 let notes = JSON.parse(fs.readFileSync(Path, 'utf8'));
